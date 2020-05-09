@@ -2,6 +2,7 @@ package com.imnstudios.justanotherproject.ui.auth
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.imnstudios.justanotherproject.data.repositories.UserRepository
 
 class AuthViewModel : ViewModel() {
     var email: String? = null
@@ -11,15 +12,15 @@ class AuthViewModel : ViewModel() {
 
 
     fun onLoginButtonClick(view: View) {
-
         authListener?.onStarted()
-
 
         if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
             authListener?.onFailure("Invalid email or password")
             return
         }
 
-        authListener?.onSuccess()
+        val loginResponse = UserRepository().userLogin(email!!, password!!)
+
+        authListener?.onSuccess(loginResponse)
     }
 }
