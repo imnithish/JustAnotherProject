@@ -12,6 +12,7 @@ import com.imnstudios.justanotherproject.data.db.entities.User
 import com.imnstudios.justanotherproject.databinding.ActivityLoginBinding
 import com.imnstudios.justanotherproject.util.hide
 import com.imnstudios.justanotherproject.util.show
+import com.imnstudios.justanotherproject.util.snackbar
 import com.imnstudios.justanotherproject.util.toast
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -36,7 +37,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
     override fun onSuccess(user: User) {
         progress_bar.hide()
-        toast("${user.name} is Logged In")
+        root_layout.snackbar("${user.name} is Logged In")
     }
 
     override fun onFailure(message: String) {

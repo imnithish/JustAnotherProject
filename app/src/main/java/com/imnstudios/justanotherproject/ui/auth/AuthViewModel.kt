@@ -2,7 +2,9 @@ package com.imnstudios.justanotherproject.ui.auth
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.imnstudios.justanotherproject.data.db.entities.User
 import com.imnstudios.justanotherproject.data.repositories.UserRepository
+import com.imnstudios.justanotherproject.util.ApiException
 import com.imnstudios.justanotherproject.util.Coroutines
 
 class AuthViewModel : ViewModel() {
@@ -21,13 +23,21 @@ class AuthViewModel : ViewModel() {
         }
 
         Coroutines.main {
-            val response = UserRepository().userLogin(email!!, password!!)
+            try {
 
-            if (response.isSuccessful) {
-                authListener?.onSuccess(response.body()?.user!!)
-            } else {
-                authListener?.onFailure("Error Code: ${response.code()}")
+                val authResponse = UserRepository().userLogin(email!!, password!!)
+                authResponse.user?.let {
+
+                    authListener?.onSuccess(it)
+                    return@main
+                }
+                authListener?.onFailure(authResponse?.message!!)
+
+            } catch (e: ApiException) {
+                authListener?.onFailure(e.message!!)
             }
+
+
         }
 
     }
