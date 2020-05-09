@@ -3,6 +3,7 @@ package com.imnstudios.justanotherproject.ui.auth
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.imnstudios.justanotherproject.data.repositories.UserRepository
+import com.imnstudios.justanotherproject.util.Coroutines
 
 class AuthViewModel : ViewModel() {
     var email: String? = null
@@ -19,8 +20,15 @@ class AuthViewModel : ViewModel() {
             return
         }
 
-        val loginResponse = UserRepository().userLogin(email!!, password!!)
+        Coroutines.main {
+            val response = UserRepository().userLogin(email!!, password!!)
 
-        authListener?.onSuccess(loginResponse)
+            if (response.isSuccessful) {
+                authListener?.onSuccess(response.body()?.user!!)
+            } else {
+                authListener?.onFailure("Error Code: ${response.code()}")
+            }
+        }
+
     }
 }
