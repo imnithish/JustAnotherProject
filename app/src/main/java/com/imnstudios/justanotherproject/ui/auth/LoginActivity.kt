@@ -12,6 +12,7 @@ import com.imnstudios.justanotherproject.R
 import com.imnstudios.justanotherproject.data.db.AppDatabase
 import com.imnstudios.justanotherproject.data.db.entities.User
 import com.imnstudios.justanotherproject.data.network.MyApi
+import com.imnstudios.justanotherproject.data.network.NetworkConnectionInterceptor
 import com.imnstudios.justanotherproject.data.repositories.UserRepository
 import com.imnstudios.justanotherproject.databinding.ActivityLoginBinding
 import com.imnstudios.justanotherproject.ui.home.HomeActivity
@@ -27,7 +28,9 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         super.onCreate(savedInstanceState)
 
 
-        val api = MyApi()
+        val networkConnectionInterceptor = NetworkConnectionInterceptor(this)
+
+        val api = MyApi(networkConnectionInterceptor)
         val db = AppDatabase(this)
 
         val repository = UserRepository(api, db)
