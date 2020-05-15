@@ -6,6 +6,8 @@ import com.imnstudios.justanotherproject.data.network.MyApi
 import com.imnstudios.justanotherproject.data.network.NetworkConnectionInterceptor
 import com.imnstudios.justanotherproject.data.repositories.UserRepository
 import com.imnstudios.justanotherproject.ui.auth.AuthViewModelFactory
+import com.imnstudios.justanotherproject.ui.home.profile.ProfileViewModel
+import com.imnstudios.justanotherproject.ui.home.profile.ProfileViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -25,7 +27,9 @@ class MVVMApplication : Application(), KodeinAware {
         bind() from singleton { MyApi(instance()) }
         bind() from singleton { AppDatabase(instance()) }
         bind() from singleton { UserRepository(instance(), instance()) }
-        bind() from provider {AuthViewModelFactory(instance())}
+        bind() from provider { AuthViewModelFactory(instance()) }
+
+        bind() from provider { ProfileViewModelFactory(instance()) }
     }
 
 
