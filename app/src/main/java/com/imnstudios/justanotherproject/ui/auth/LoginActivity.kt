@@ -2,40 +2,30 @@ package com.imnstudios.justanotherproject.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.imnstudios.justanotherproject.R
-import com.imnstudios.justanotherproject.data.db.AppDatabase
 import com.imnstudios.justanotherproject.data.db.entities.User
-import com.imnstudios.justanotherproject.data.network.MyApi
-import com.imnstudios.justanotherproject.data.network.NetworkConnectionInterceptor
-import com.imnstudios.justanotherproject.data.repositories.UserRepository
 import com.imnstudios.justanotherproject.databinding.ActivityLoginBinding
 import com.imnstudios.justanotherproject.ui.home.HomeActivity
 import com.imnstudios.justanotherproject.util.hide
 import com.imnstudios.justanotherproject.util.show
 import com.imnstudios.justanotherproject.util.snackbar
-import com.imnstudios.justanotherproject.util.toast
 import kotlinx.android.synthetic.main.activity_login.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
-class LoginActivity : AppCompatActivity(), AuthListener {
+class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
+
+    override val kodein by kodein()
+    private val factory : AuthViewModelFactory by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        val networkConnectionInterceptor = NetworkConnectionInterceptor(this)
-
-        val api = MyApi(networkConnectionInterceptor)
-        val db = AppDatabase(this)
-
-        val repository = UserRepository(api, db)
-
-        val factory = AuthViewModelFactory(repository)
 
         val binding: ActivityLoginBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_login)
