@@ -16,7 +16,6 @@ import org.kodein.di.android.x.kodein
 class ProfileFragment : Fragment(), KodeinAware {
 
     override val kodein by kodein()
-
     private lateinit var viewModel: ProfileViewModel
     private val factory: ProfileViewModelFactory by instance()
 

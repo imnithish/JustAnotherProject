@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@+id/profileFragment">
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.imnstudios.justanotherproject.ui.home.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/quotesFragment"
+        android:name="com.imnstudios.justanotherproject.ui.home.profile.quotes.QuotesFragment"
+        android:label="quotes_fragment"
+        tools:layout="@layout/quotes_fragment" />
 </navigation>
